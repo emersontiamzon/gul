@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Shared.FluentResults.Extension;
+
+public static class MessageExtension
+{
+    public static bool Containing(this List<string> source, string toCheck)
+    {
+        return source?.Any(m => m.Contains(toCheck)) ?? false;
+    }
+}
