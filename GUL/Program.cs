@@ -1,4 +1,6 @@
 using Auth.DataContext;
+using Auth.IdentityContext;
+using GUL.Registrations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Models;
@@ -21,11 +23,21 @@ builder.Services.AddAuthorization();
 
 //Configure dbContext  --- Authentications
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<UsersDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<AppDbContext>().AddApiEndpoints();
-var app = builder.Build();
+
 //---Authentications
 
+
+//register controllers
+builder.Services.AddControllersRegistration();
+
+
+//scan assemblies with scrutor
+builder.Services.AddScrutorRegistration();
+
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

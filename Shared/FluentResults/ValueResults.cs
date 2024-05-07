@@ -1,5 +1,7 @@
 ﻿
 
+using Shared.FluentResults.Formats;
+
 namespace Shared.FluentResults;
 
 
