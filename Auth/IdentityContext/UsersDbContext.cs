@@ -10,10 +10,14 @@ public class UsersDbContext : IdentityDbContext<AppUser>, IUsersDbContext
 {
     private readonly IConfiguration _config;
 
-
+    public UsersDbContext()
+    {
+    }
     public UsersDbContext(DbContextOptions<UsersDbContext> options) : base(options)
     {
     }
+
+
     public virtual DbSet<AppUser> AppUsers { get; set; }
 
     public async Task Initialize()
@@ -91,6 +95,13 @@ public class UsersDbContext : IdentityDbContext<AppUser>, IUsersDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         // connect to postgres with connection string from app settings during migrations
-        options.UseNpgsql(_config.GetSection("DefaultConnection").ToString());
+        //options.UseNpgsql(_config.GetSection("DefaultConnection").ToString());
+
+
+        //var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, false);
+        //var config = builder.Build();
+        //var connectionString = config.GetConnectionString("DefaultConnection");
+
+        options.UseNpgsql("User Id=postgres.inaoczhijvqasgcsltlx;Password=Umgp9PaTF5uRlwSo;Server=aws-0-ap-southeast-1.pooler.supabase.com;Port=5432;Database=postgres;");
     }
 }

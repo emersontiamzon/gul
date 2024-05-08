@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Persistence.Initializable;
+using Persistence.Models;
 
-namespace Auth.IdentityContext
+namespace Auth.IdentityContext;
+
+public interface IUsersDbContext : IInitializable
 {
-    internal interface IUsersDbContext
-    {
-    }
+    DbSet<AppUser> AppUsers { get; set; }
 }

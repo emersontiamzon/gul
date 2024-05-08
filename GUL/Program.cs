@@ -1,4 +1,4 @@
-using Auth.DataContext;
+
 using Auth.IdentityContext;
 using GUL.Registrations;
 using Microsoft.AspNetCore.Identity;
@@ -22,10 +22,10 @@ builder.Services.AddAuthentication()
 builder.Services.AddAuthorization();
 
 //Configure dbContext  --- Authentications
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDbContext<UsersDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<AppDbContext>().AddApiEndpoints();
+builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<UsersDbContext>().AddApiEndpoints();
 
 //---Authentications
 
@@ -50,6 +50,7 @@ app.MapIdentityApi<AppUser>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
