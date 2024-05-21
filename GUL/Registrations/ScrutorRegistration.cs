@@ -7,6 +7,8 @@ public static class ScrutorRegistration
         service.Scan(
             selector => selector
                 .FromAssemblies(Auth.Assembly.AssemblyReference.Assembly)
+                .FromAssemblies(Persistence.Assembly.AssemblyReference.Assembly)
+                .FromAssemblies(Shared.Assembly.AssemblyReference.Assembly)
                 .AddClasses(false)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());

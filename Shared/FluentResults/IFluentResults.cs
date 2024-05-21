@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace Shared.FluentResults;
 public interface IFluentResults<T> : IFluentResults
 {
     T Value { get; }
+
+    ActionResult ToActionResult();
 }
 
 public interface IFluentResults

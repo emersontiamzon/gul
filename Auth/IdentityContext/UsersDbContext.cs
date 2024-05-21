@@ -98,6 +98,8 @@ public class UsersDbContext : IdentityDbContext<AppUser>, IUsersDbContext
         //options.UseNpgsql(_config.GetSection("DefaultConnection").ToString());
 
 
+        //var aa =_config.GetSection("DefaultConnection");
+
         //var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, false);
         //var config = builder.Build();
         //var connectionString = config.GetConnectionString("DefaultConnection");
