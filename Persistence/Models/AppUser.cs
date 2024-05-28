@@ -9,6 +9,7 @@ namespace Persistence.Models
         public string MiddleName { get; set; } = string.Empty;
         public string RefreshToken { get; set; } = string.Empty;
         public string ApiToken { get; set; } = string.Empty;
+        public int TenantId { get; set; }
         public bool Active { get; set; }
     }
 }

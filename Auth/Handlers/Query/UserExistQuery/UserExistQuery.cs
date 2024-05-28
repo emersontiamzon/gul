@@ -3,6 +3,6 @@
 
 //namespace Auth.Handlers.Query.UserExistQuery;
 
-//public record UserExistQuery(string UserName, string Email, int TenantId) : IQuery<AppUser>
+//public sealed record UserExistQuery(string UserName, string Email, int TenantId) : IQuery<AppUser>
 //{
 //}

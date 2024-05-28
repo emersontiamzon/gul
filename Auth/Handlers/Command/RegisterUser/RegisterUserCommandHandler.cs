@@ -1,16 +1,13 @@
-//using System.Text.RegularExpressions;
 //using Abstraction.Message;
+//using Auth.Handlers.Command.RegisterUser;
+//using Auth.Handlers.Query.UserExistQuery;
 //using MediatR;
 //using Microsoft.AspNetCore.Identity;
 //using Microsoft.Extensions.Logging;
 //using Microsoft.Extensions.Options;
-//using Point.Of.Sale.Abstraction.Message;
-//using Point.Of.Sale.Auth.Handlers.Query.UserExistQuery;
-//using Point.Of.Sale.Persistence.Extensions;
-//using Point.Of.Sale.Persistence.Models;
-//using Point.Of.Sale.Shared.Configuration;
-//using Point.Of.Sale.Shared.FluentResults;
-//using Point.Of.Sale.Tenant.Handlers.Query.GetApiKeyById;
+//using Persistence.Models;
+//using Shared.FluentResults;
+//using System.Text.RegularExpressions;
 
 //namespace Point.Of.Sale.Auth.Handlers.Command.RegisterUser;
 
@@ -19,9 +16,9 @@
 //    private readonly IOptions<PosConfiguration> _configuration;
 //    private readonly ILogger<RegisterUserCommandHandler> _logger;
 //    private readonly ISender _sender;
-//    private readonly UserManager<ServiceUser> _userManager;
+//    private readonly UserManager<AppUser> _userManager;
 
-//    public RegisterUserCommandHandler(ILogger<RegisterUserCommandHandler> logger, IOptions<PosConfiguration> configuration, UserManager<ServiceUser> userManager, ISender sender)
+//    public RegisterUserCommandHandler(ILogger<RegisterUserCommandHandler> logger, IOptions<PosConfiguration> configuration, UserManager<AppUser> userManager, ISender sender)
 //    {
 //        _logger = logger;
 //        _configuration = configuration;
@@ -36,7 +33,7 @@
 //            return ResultsTo.BadRequest<bool>().WithMessage("Invalid Credentials Provided");
 //        }
 
-//        if (await _sender.Send(new UserExistQuery(request.UserName, request.Email, request.TenantId), cancellationToken) is {Status: FluentResultsStatus.Success})
+//        if (await _sender.Send(new UserExistQuery(request.UserName, request.Email, request.TenantId), cancellationToken) is { Status: FluentResultsStatus.Success })
 //        {
 //            return ResultsTo.BadRequest<bool>().WithMessage("User already exists");
 //        }
@@ -44,12 +41,12 @@
 //        var newUser = InitializeNewUser(request);
 //        var parameters = BuildParameters(newUser, _configuration.Value);
 
-//        if (await _sender.Send(new GetApiKeyByIdQuery(request.TenantId), cancellationToken) is {Status: FluentResultsStatus.Success} apiKey)
+//        if (await _sender.Send(new GetApiKeyByIdQuery(request.TenantId), cancellationToken) is { Status: FluentResultsStatus.Success } apiKey)
 //        {
 //            newUser.RefreshToken = parameters.GenerateToken();
 //            newUser.ApiToken = !string.IsNullOrWhiteSpace(apiKey.Value) ? apiKey.Value : string.Empty;
 
-//            if (await _userManager.CreateAsync(newUser, request.Password) is not {Succeeded: false} result)
+//            if (await _userManager.CreateAsync(newUser, request.Password) is not { Succeeded: false } result)
 //            {
 //                return ResultsTo.Something(true);
 //            }
@@ -62,7 +59,7 @@
 //        return ResultsTo.BadRequest<bool>().WithMessage("Invalid Tenant Id");
 //    }
 
-//    private static TokenBuilderParameters BuildParameters(ServiceUser user, PosConfiguration configuration)
+//    private static TokenBuilderParameters BuildParameters(AppUser user, PosConfiguration configuration)
 //    {
 //        return new TokenBuilderParameters
 //        {
@@ -72,9 +69,9 @@
 //        };
 //    }
 
-//    private static ServiceUser InitializeNewUser(RegisterUserCommand request)
+//    private static AppUser InitializeNewUser(RegisterUserCommand request)
 //    {
-//        return new ServiceUser
+//        return new AppUser
 //        {
 //            FirstName = request.FirstName,
 //            MiddleName = request.MiddleName,

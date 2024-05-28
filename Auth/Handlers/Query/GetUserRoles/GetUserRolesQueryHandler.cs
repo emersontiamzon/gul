@@ -14,6 +14,7 @@
 //    private readonly ISender _sender;
 //    private readonly UserManager<AppUser> _userManager;
 
+
 //    public GetUserRolesQueryHandler(ILogger<GetUserRolesQueryHandler> logger, ISender sender, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
 //    {
 //        _logger = logger;
@@ -29,15 +30,20 @@
 //            return ResultsTo.BadRequest<List<string>>("User is null or empty").WithMessage("Invalid argument provided.");
 //        }
 
-//        if (await _userManager.FindByNameAsync(request.UserName) is not { } user)
+//        var user = await _userManager.FindByNameAsync(request.UserName);
+//        if (user == null)
 //        {
 //            return ResultsTo.NotFound<List<string>>("User does not exist").WithMessage("Invalid argument provided.");
 //        }
 
-//        if (await _userManager.GetRolesAsync(user) is List<string> roles && roles.Any())
+//        var roles = await _userManager.GetRolesAsync(user);
+
+
+//        if (roles != null)
 //        {
-//            return ResultsTo.Success(roles);
+//            return ResultsTo.Success(new List<string>());
 //        }
+
 
 //        return ResultsTo.NotFound<List<string>>("User does not have any roles").WithMessage("No roles found");
 //    }

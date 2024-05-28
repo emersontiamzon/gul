@@ -22,9 +22,10 @@
 
 //    public async Task<IFluentResults<AppUser>> Handle(UserExistQuery request, CancellationToken cancellationToken)
 //    {
+
 //        var result = await _userManager.FindByEmailAsync(request.Email);
 
-//        if (result is null || result.Active == false)//|| result.TenantId != request.TenantId)
+//        if (result is null || result.Active == false || result.TenantId != request.TenantId)
 //        {
 //            return ResultsTo.NotFound<AppUser>().WithMessage("User does not exist");
 //        }

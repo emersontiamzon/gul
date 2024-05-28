@@ -7,7 +7,7 @@ using Shared.FluentResults;
 
 namespace Auth.Handlers.Query.GetUsers;
 
-public class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, List<ServiceUserResponse>>
+public class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, List<string>>
 {
     private readonly UserManager<AppUser> _userManager;
 
@@ -16,13 +16,13 @@ public class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, List<ServiceUse
         _userManager = userManager;
     }
 
-    public async Task<IFluentResults<List<ServiceUserResponse>>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+    public async Task<IFluentResults<List<string>>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
         var result = await _userManager.Users.ToListAsync(cancellationToken);
 
         if (!result.Any())
         {
-            return ResultsTo.NotFound<List<ServiceUserResponse>>().WithMessage("No Users Found");
+            return ResultsTo.NotFound<List<string>>().WithMessage("No Users Found");
         }
 
         var response = result.Where(r => r.Active).Select(m => new ServiceUserResponse
@@ -34,6 +34,6 @@ public class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, List<ServiceUse
             //TenantId = m.TenantId,
         }).ToList();
 
-        return ResultsTo.Something(response);
+        return ResultsTo.Something(response.Select(m => m.FirstName!.Trim()).ToList());
     }
 }

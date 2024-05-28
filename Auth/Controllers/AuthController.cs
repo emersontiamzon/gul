@@ -1,12 +1,8 @@
-﻿using Auth.Handlers.Query.GetUsers;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Auth.Controller;
 
 [ApiController]
-[Authorize]
 [Route("/api/auth/")]
 public sealed class AuthController : ControllerBase
 {
@@ -21,24 +17,25 @@ public sealed class AuthController : ControllerBase
         //_options = options;
     }
 
-    //users
-    //[Route("users/register")]
-    //[HttpPost]
-    //public async Task<ActionResult> RegisterUser([FromBody] RegisterUserRequest request, CancellationToken cancellationToken = default)
-    //{
-    //    var result = await _sender.Send(new RegisterUserCommand
-    //    {
-    //        Email = request.Email,
-    //        UserName = request.UserName,
-    //        Password = request.Password,
-    //        FirstName = request.FirstName,
-    //        MiddleName = request.MiddleName,
-    //        LastName = request.LastName,
-    //        Phone = request.Phone,
-    //        TenantId = request.TenantId,
-    //    }, cancellationToken);
-    //    return result.ToActionResult();
-    //}
+
+    [Route("users/register")]
+    [HttpPost]
+    public async Task<ActionResult> RegisterUser(CancellationToken cancellationToken = default)
+    {
+
+        //var result = await _sender.Send(new RegisterUserCommand
+        //{
+        //    Email = request.Email,
+        //    UserName = request.UserName,
+        //    Password = request.Password,
+        //    FirstName = request.FirstName,
+        //    MiddleName = request.MiddleName,
+        //    LastName = request.LastName,
+        //    Phone = request.Phone,
+        //    TenantId = request.TenantId,
+        //}, cancellationToken);
+        return Ok();
+    }
 
     //[Route("users/{user}")]
     //[HttpDelete]
@@ -59,13 +56,13 @@ public sealed class AuthController : ControllerBase
     //}
 
 
-    [Route("users/all")]
-    [HttpGet]
-    public async Task<ActionResult> GetAllUsers(CancellationToken cancellationToken = default)
-    {
-        var result = await _sender.Send(new GetUsersQuery(), cancellationToken);
-        return result.ToActionResult();
-    }
+    //[Route("users/all")]
+    //[HttpGet]
+    //public async Task<ActionResult> GetAllUsers(CancellationToken cancellationToken = default)
+    //{
+    //    var result = await _sender.Send(new GetUsersQuery(), cancellationToken);
+    //    return result.ToActionResult();
+    //}
 
     //[Route("users/exist")]
     //[HttpPost]

@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
+using Persistence.Initializable;
 using Persistence.Models;
 using Registrations;
 using System.IO.Compression;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //Add Authentication  --- Authentications
@@ -27,6 +29,9 @@ builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<U
 //---Authentications
 
 
+
+
+
 //setup compression
 builder.Services.AddResponseCompression(options =>
 {
@@ -40,19 +45,16 @@ builder.Services.Configure<GzipCompressionProviderOptions>(options => { options.
 
 
 
-builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-{
-    builder.AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader();
-}));
-
+//register controllers
+builder.Services.AddControllersRegistration();
 
 //register mediatr
 builder.Services.AddMediatrRegistration();
 
 //scan assemblies with scrutor
 builder.Services.AddScrutorRegistration();
+
+
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
@@ -66,8 +68,6 @@ builder.Services.AddSwaggerGen(c =>
 //register repositories
 //builder.Services.AddRepositoriesRegistration();
 
-//register controllers
-builder.Services.AddControllersRegistration();
 
 // Setup OpenTelemetry Tracing w/ honeybcomb
 //builder.AddOpenTelemetryAndLoggingRegistration(options.Value);
@@ -80,7 +80,9 @@ builder.Services.AddHttpContextAccessor();
 IdentityModelEventSource.ShowPII = true;
 
 var app = builder.Build();
-// Configure the HTTP request pipeline.
+
+
+// Configure the HTTP request pipeline.not able to be constructed (Error while validating the service descriptor 'ServiceType: System.IEquatable`1[Shared.Results.Error] Lifetime: Scoped ImplementationType: Shared.Results.Error': Unable to resolve service for type 'System.String' while attempting to activate 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -99,4 +101,6 @@ app.MapControllers();
 
 app.Map("/exception", () => { throw new InvalidOperationException("Sample Exception"); });
 
+//initialize and apply database migrations
+var initializables = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).Where(y => typeof(IInitializable).IsAssignableFrom(y) && !y.IsInterface);
 app.Run();

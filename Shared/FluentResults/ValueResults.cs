@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Shared.FluentResults.Formats;
+﻿using Shared.FluentResults.Formats;
 
 namespace Shared.FluentResults;
 
@@ -52,8 +51,5 @@ public class ValueResults<TValue> : IFluentResults<TValue>
         return MultiLineFormatter.ToMultiLine(delimiter, Messages);
     }
 
-    public ActionResult ToActionResult()
-    {
-        throw new NotImplementedException();
-    }
+
 }
