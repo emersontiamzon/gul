@@ -4,6 +4,7 @@ using GUL.Registrations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using Persistence.Initializable;
@@ -12,6 +13,11 @@ using Registrations;
 using System.IO.Compression;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//load appsettings configuration
+builder.Services.AddOptions();
+builder.Services.Configure<GULConfiguration>(builder.Configuration.GetSection("PosConfiguration"));
+var options = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<GULConfiguration>>();
 
 //Add Authentication  --- Authentications
 builder.Services.AddAuthentication()

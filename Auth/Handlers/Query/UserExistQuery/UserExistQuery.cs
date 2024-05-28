@@ -1,8 +1,8 @@
-//using Abstraction.Message;
-//using Persistence.Models;
+using Abstraction.Message;
+using Persistence.Models;
 
-//namespace Auth.Handlers.Query.UserExistQuery;
+namespace Auth.Handlers.Query.UserExistQuery;
 
-//public sealed record UserExistQuery(string UserName, string Email, int TenantId) : IQuery<AppUser>
-//{
-//}
+public sealed record UserExistQuery(string UserName, string Email, int TenantId) : IQuery<AppUser>
+{
+}
